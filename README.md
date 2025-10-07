@@ -10,7 +10,7 @@ Augusto Sampaio
 
 ## Equipe
 
-* Seu Nome | jasb@cin.ufpe.br
+* José Arthur Soares Bezerra | jasb@cin.ufpe.br
 
 ## Contextualização
 
