@@ -15,7 +15,7 @@ Augusto Sampaio
 
 ## Contextualização
 
-Este projeto foca na implementação de uma estrutura de dados clássica, a Árvore Binária de Busca (BST), sob a ótica de um paradigma puramente funcional. A implementação visa não apenas replicar as operações básicas de inserção e busca, mas garantir que todas as modificações na estrutura preservem a **imutabilidade**. O conceito central explorado será o de **compartilhamento estrutural** (*structural sharing*), também conhecido como *path copying*, que permite a criação eficiente de novas versões da árvore a cada operação, sem alterar a original.
+Este projeto foca na implementação de uma estrutura de dados clássica, a Árvore Binária de Busca (BST), sob a ótica do paradigma da linguagem funcional 3. A implementação visa não apenas replicar as operações básicas de inserção e busca, mas garantir que todas as modificações na estrutura preservem a **imutabilidade**. O conceito central explorado será o de **compartilhamento estrutural** (*structural sharing*), também conhecido como *path copying*, que permite a criação eficiente de novas versões da árvore a cada operação, sem alterar a original.
 
 ## Escopo do Projeto
 
