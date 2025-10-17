@@ -20,3 +20,36 @@ Este projeto foca na implementação de uma estrutura de dados clássica, a Árv
 ## Escopo do Projeto
 
 O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e manipular dados ordenados. A funcionalidade central é a implementação das operações de `inserir`, `remover` e `buscar` de forma puramente funcional, onde qualquer operação de escrita deve retornar uma nova instância da árvore com a modificação aplicada, mantendo a versão anterior intacta e acessível.
+
+## Gramática BNF
+
+A gramática a seguir representa a Linguagem de Expressões 3 estendida com definições para a estrutura de dados Árvore Binária de Busca e suas operações:
+
+```
+# Novo tipo de dado "ValorArvore"
+ValorConcreto ::= ValorInteiro
+                | ValorBooleano
+                | ValorString
+                | ValorLista
+                | ValorArvore
+
+
+# Esse novo tipo de dado representa uma árvore binária. "Empty" representa uma árvore vazia, enquanto "Node" representa um nó da árvore com três componentes: o valor armazenado no nó, a subárvore esquerda e a subárvore direita.
+ValorArvore ::= "Empty"
+              | "Node" "(" Expressao "," Expressao "," Expressao ")"
+
+
+# Nova expressão "ExpArvore" para manipulação de árvores binárias
+Expressao ::= Valor
+            | ExpUnaria
+            | ExpBinaria
+            | ExpDeclaracao
+            | Id
+            | Aplicacao
+            | IfThenElse
+            | ExpArvore
+
+# Operações de inserção, remoção e busca em árvores binárias são definidas pela expressão "ExpArvore". Cada operação recebe dois argumentos: a árvore alvo e o valor a ser inserido, removido ou buscado.
+ExpArvore ::= "insert" "(" Expressao "," Expressao ")" 
+            | "remove" "(" Expressao "," Expressao ")" 
+            | "search" "(" Expressao "," Expressao ")"
