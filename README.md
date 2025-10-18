@@ -23,7 +23,7 @@ O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e
 
 ## Gramática BNF
 
-A gramática a seguir representa a Linguagem de Expressões 3 estendida com definições para a estrutura de dados Árvore Binária de Busca e suas operações:
+A gramática a seguir representa a Linguagem Funcional 3 estendida com definições para a estrutura de dados Árvore Binária de Busca e suas operações:
 
 ```
 # Novo tipo de dado "ValorArvore"
