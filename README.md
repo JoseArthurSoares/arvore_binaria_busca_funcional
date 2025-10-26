@@ -59,7 +59,7 @@ ExpArvore ::= "insert" "(" Expressao "," Expressao ")"
 ### Exemplo 1 - Inserção inicial na árvore
 Expressão formal
 ```
-ExpArvore ::= insert(Empty, 5)
+insert(Empty, 5)
 ```
 Descrição:
 
@@ -81,9 +81,9 @@ Node(5, Empty, Empty)
 ### Exemplo 2 - Construção incremental de uma árvore
 Expressão formal
 ```
-let var a1 = ExpArvore(insert(Empty, 8)) in
-let var a2 = ExpArvore(insert(a1, 3)) in
-let var a3 = ExpArvore(insert(a2, 10)) in
+let var a1 = insert(Empty, 8) in
+let var a2 = insert(a1, 3) in
+let var a3 = insert(a2, 10) in
 a3
 ```
 Descrição:
@@ -111,10 +111,10 @@ Node(8, Node(3, Empty, Empty), Node(10, Empty, Empty))
 ### Exemplo 3 - Busca de elemento na árvore (search)
 Expressão formal
 ```
-let var arv1 = ExpArvore(insert(Empty, 8)) in
-let var arv2 = ExpArvore(insert(arv1, 3)) in
-let var arv3 = ExpArvore(insert(arv2, 10)) in
-ExpArvore ::= search(arv3, 10)
+let var arv1 = insert(Empty, 8) in
+let var arv2 = insert(arv1, 3) in
+let var arv3 = insert(arv2, 10) in
+search(arv3, 10)
 ```
 Descrição:
 
@@ -147,11 +147,11 @@ false
 Expressão formal
 ```
 let var t0 = Empty in
-let var t1 = ExpArvore(insert(t0, 20)) in
-let var t2 = ExpArvore(insert(t1, 10)) in
-let var t3 = ExpArvore(insert(t2, 30)) in
-let var t4 = ExpArvore(insert(t3, 25)) in
-ExpArvore ::= remove(t4, 20)
+let var t1 = insert(t0, 20) in
+let var t2 = insert(t1, 10) in
+let var t3 = insert(t2, 30) in
+let var t4 = insert(t3, 25) in
+remove(t4, 20)
 ```
 Descrição:
 
