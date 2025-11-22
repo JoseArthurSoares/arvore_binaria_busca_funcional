@@ -43,7 +43,17 @@ ValorArvore ::= "Empty"
 # Nova expressão "ExpArvore" para manipulação de árvores binárias
 Expressao ::= Valor
             | ExpUnaria
-            | ExpBinaria
+            | ExpBinaria ::= Expressao "+" Expressao
+             | Expressao "-" Expressao
+             | Expressao "*" Expressao
+             | Expressao "/" Expressao
+             | Expressao "==" Expressao
+             | Expressao "<" Expressao
+             | Expressao ">" Expressao
+             | Expressao "<=" Expressao
+             | Expressao ">=" Expressao
+             | Expressao "and" Expressao
+             | Expressao "or" Expressao
             | ExpDeclaracao
             | Id
             | Aplicacao
