@@ -1,43 +1,138 @@
-from lark import Transformer
+from lark import Transformer, v_args
+from dataclasses import dataclass
+from typing import List, Any
+
+@dataclass
+class Var:
+    name: str
+
+# --- Definição dos Nós da AST ---
+@dataclass
+class BinOp:
+    left: Any
+    op: str
+    right: Any
 
 
-class TreeLangTransformer(Transformer):
-    def valor_inteiro(self, items):
-        return int(items[0])
+@dataclass
+class UnOp:
+    op: str
+    expr: Any
 
-    def valor_string(self, items):
-        return str(items[0][1:-1])
 
-    def valor_booleano(self, items):
-        return items[0] == "true"
+@dataclass
+class Let:
+    decls: List[Any]
+    body: Any
 
-    def valor_lista(self, items):
-        return list(items)
 
-    # --- Árvore ---
-    def empty_tree(self, items):
-        return None
+@dataclass
+class VarDec:
+    name: str
+    expr: Any
 
-    def node_tree(self, items):
-        valor, esq, dir = items
-        return {"tipo": "Node", "valor": valor, "left": esq, "right": dir}
 
-    # --- Operações ---
-    def insert_tree(self, items):
-        arvore, valor = items
-        return {"op": "insert", "target": arvore, "value": valor}
+@dataclass
+class FunDec:
+    name: str
+    params: List[str]
+    body: Any
 
-    def remove_tree(self, items):
-        arvore, valor = items
-        return {"op": "remove", "target": arvore, "value": valor}
 
-    def search_tree(self, items):
-        arvore, valor = items
-        return {"op": "search", "target": arvore, "value": valor}
+@dataclass
+class IfElse:
+    cond: Any
+    true_branch: Any
+    false_branch: Any
 
-    # --- Outros ---
-    def id(self, items):
-        return str(items[0])
 
-    def add(self, items):
-        return items[0] + items[1]
+@dataclass
+class App:
+    func_name: str
+    args: List[Any]
+
+
+@dataclass
+class TreeOp:
+    op: str
+    tree: Any
+    val: Any
+
+
+@dataclass
+class TreeNode:
+    val: Any
+    left: Any
+    right: Any
+
+
+class EmptyTree:
+    def __repr__(self): return "Empty"
+
+
+# --- Transformer ---
+@v_args(inline=True)
+class LangTransformer(Transformer):
+    def val_int(self, n): return int(n)
+
+    def val_string(self, s): return s[1:-1]  # Remove as aspas
+
+    def val_bool_true(self): return True
+
+    def val_bool_false(self): return False
+
+    def id(self, name): return Var(str(name))
+
+    # Árvores Concretas
+    def val_empty(self): return EmptyTree()
+
+    def val_node(self, val, left, right): return TreeNode(val, left, right)
+
+    # Operações Binárias
+    def bin_add(self, l, r): return BinOp(l, '+', r)
+
+    def bin_sub(self, l, r): return BinOp(l, '-', r)
+
+    def bin_concat(self, l, r): return BinOp(l, '++', r)
+
+    def bin_eq(self, l, r): return BinOp(l, '==', r)
+
+    def bin_and(self, l, r): return BinOp(l, 'and', r)
+
+    def bin_or(self, l, r): return BinOp(l, 'or', r)
+
+    # Operações Unárias
+    def un_neg(self, e): return UnOp('-', e)
+
+    def un_not(self, e): return UnOp('not', e)
+
+    def un_len(self, e): return UnOp('length', e)
+
+    # Operações de Árvore
+    def tree_insert(self, tree, val): return TreeOp('insert', tree, val)
+
+    def tree_remove(self, tree, val): return TreeOp('remove', tree, val)
+
+    def tree_search(self, tree, val): return TreeOp('search', tree, val)
+
+    # Controle de Fluxo
+    def if_then_else(self, c, t, e): return IfElse(c, t, e)
+
+    # Declarações e Funções
+    def exp_declaracao(self, decls, body): return Let(decls, body)
+
+    def dec_variavel(self, var_node, expr):
+        return [VarDec(var_node.name, expr)]
+
+    def dec_funcao(self, var_node, params, body):
+        param_names = [p.name for p in params]
+        return [FunDec(var_node.name, param_names, body)]
+
+    def dec_composta(self, d1, d2): return d1 + d2
+
+    def list_id(self, *args): return list(args)
+
+    def aplicacao(self, var_node, args):
+        return App(var_node.name, args)
+
+    def list_exp(self, *args): return list(args)

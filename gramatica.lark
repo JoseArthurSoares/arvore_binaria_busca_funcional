@@ -1,57 +1,78 @@
 ?start: expressao
 
-?expressao: valor
-          | exp_binaria
-          | exp_unaria
-          | exp_declaracao
-          | id
-          | aplicacao
+?expressao: exp_declaracao
           | if_then_else
+          | exp_logica
           | exp_arvore
 
-// --- Definição de Valores ---
-?valor: valor_concreto
+// Precedência Lógica
+?exp_logica: exp_logica "or" exp_comparacao  -> bin_or
+           | exp_logica "and" exp_comparacao -> bin_and
+           | "not" exp_logica                -> un_not
+           | exp_comparacao
 
-?valor_concreto: valor_inteiro
-               | valor_booleano
-               | valor_string
-               | valor_lista
-               | valor_arvore
+// Precedência de Comparação
+?exp_comparacao: exp_soma "==" exp_soma -> bin_eq
+               | exp_soma
 
-valor_inteiro: SIGNED_INT
-valor_booleano: "true" | "false"
-valor_string: ESCAPED_STRING
+// Precedência Aritmética e Concatenação
+?exp_soma: exp_soma "+" exp_termo  -> bin_add
+         | exp_soma "-" exp_termo  -> bin_sub
+         | exp_soma "++" exp_termo -> bin_concat
+         | exp_termo
 
-valor_lista: "[" [expressao ("," expressao)*] "]"
+?exp_termo: "-" exp_termo      -> un_neg
+          | "length" exp_termo -> un_len
+          | aplicacao
+          | valor
+          | id
+          | "(" expressao ")"
 
-// --- Estrutura da Árvore ---
-valor_arvore: "Empty" -> empty_tree
-            | "Node" "(" valor_ordenavel "," valor_arvore "," valor_arvore ")" -> node_tree
+// Definições de Árvore
+?exp_arvore: "insert" "(" expressao "," expressao ")" -> tree_insert
+           | "remove" "(" expressao "," expressao ")" -> tree_remove
+           | "search" "(" expressao "," expressao ")" -> tree_search
 
-// --- Operações em Árvore ---
-exp_arvore: "insert" "(" expressao "," valor_ordenavel ")" -> insert_tree
-          | "remove" "(" expressao "," valor_ordenavel ")" -> remove_tree
-          | "search" "(" expressao "," valor_ordenavel ")" -> search_tree
+// Declarações (Let .. In)
+exp_declaracao: "let" declaracao_funcional "in" expressao
 
-?valor_ordenavel: valor_inteiro | valor_string
+?declaracao_funcional: dec_variavel
+                     | dec_funcao
+                     | dec_composta
 
-// --- Outras Expressões ---
-id: CNAME
+dec_variavel: "var" id "=" expressao
+dec_funcao: "fun" id list_id "=" expressao
+dec_composta: declaracao_funcional "," declaracao_funcional
 
-exp_binaria: expressao "+" expressao -> add
-           | expressao "-" expressao -> sub
-           | expressao "*" expressao -> mul
+// Aplicação de Função
+aplicacao: id "(" list_exp ")"
 
-exp_unaria: "!" expressao -> not_op
-
-exp_declaracao: "let" id "=" expressao "in" expressao
-
-aplicacao: id "(" [expressao ("," expressao)*] ")"
-
+// Controle de Fluxo
 if_then_else: "if" expressao "then" expressao "else" expressao
 
-%import common.SIGNED_INT
+// Valores
+?valor: valor_concreto
+?valor_concreto: INT            -> val_int
+               | ESCAPED_STRING -> val_string
+               | "true"         -> val_bool_true
+               | "false"        -> val_bool_false
+               | valor_arvore
+
+// Estrutura da Árvore (Construtores explícitos)
+?valor_arvore: "Empty" -> val_empty
+             | "Node" "(" valor_ordenavel "," expressao "," expressao ")" -> val_node
+
+?valor_ordenavel: INT | ESCAPED_STRING
+
+// Listas auxiliares
+list_id: id*
+list_exp: (expressao ("," expressao)*)?
+
+// Terminais
+id: /[a-zA-Z_][a-zA-Z0-9_]*/
+ID: /[a-zA-Z_][a-zA-Z0-9_]*/
+
+%import common.INT
 %import common.ESCAPED_STRING
-%import common.CNAME
 %import common.WS
 %ignore WS
