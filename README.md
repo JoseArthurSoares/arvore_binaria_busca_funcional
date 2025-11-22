@@ -28,6 +28,9 @@ A gramática a seguir representa a Linguagem Funcional 3 estendida com definiç�
 
 ```
 # Novo tipo de dado "ValorArvore"
+# Valor
+Valor ::= ValorConcreto
+
 ValorConcreto ::= ValorInteiro
                 | ValorBooleano
                 | ValorString
@@ -52,8 +55,7 @@ Expressao ::= Valor
             | ExpArvore
 
 # Expressões unárias
-ExpUnaria ::=
-                "-" Expressao
+ExpUnaria ::= "-" Expressao
               | "not" Expressao
               | "len" Expressao
               | "isEmpty" Expressao
@@ -61,6 +63,7 @@ ExpUnaria ::=
               | "int" Expressao
               | "bool" Expressao
               | "string" Expressao
+
 # Expressões binárias
 ExpBinaria ::= Expressao "+" Expressao
              | Expressao "-" Expressao
