@@ -6,7 +6,7 @@
 
 ## Professor
 
-Augusto Sampaio
+Prof. Dr. Augusto Cezar Alves Sampaio
 
 ## Equipe
 
