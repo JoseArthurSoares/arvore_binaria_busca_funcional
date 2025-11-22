@@ -129,7 +129,7 @@ def evaluate(node, env):
 # --- Execução Principal ---
 def main():
     # Lê a gramática
-    with open("gramatica.lark", "r") as f:
+    with open("gramatica.lark", "r", encoding='utf-8') as f:
         grammar = f.read()
 
     parser = Lark(grammar, parser='lalr', transformer=LangTransformer())
@@ -156,3 +156,31 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+    def repl():
+        with open("gramatica.lark", "r", encoding='utf-8') as f:
+            grammar = f.read()
+
+        parser = Lark(grammar, parser='lalr', transformer=LangTransformer())
+        print("LF1 REPL — digite 'exit' ou Ctrl+C para sair")
+        while True:
+            try:
+                text = input("expr> ").strip()
+                if text == "":
+                    continue
+                if text.lower() in ("exit", "quit"):
+                    break
+                # parser com transformer já retorna AST (nossa representação)
+                ast_node = parser.parse(text)
+                # imprimir AST/representação
+                print("AST:", ast_node)
+                result = evaluate(ast_node, {})
+                print("Resultado:", (result))
+            except KeyboardInterrupt:
+                print("\nSaindo.")
+                break
+            except Exception as e:
+                print("Erro:", e)
+
+    if __name__ == "__main__":
+        repl()
