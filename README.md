@@ -12,6 +12,7 @@ Augusto Sampaio
 
 * José Arthur Soares Bezerra | jasb@cin.ufpe.br
 * Tiago Regis Perrelli | trp@cin.ufpe.br
+* Ricardo Helisson Bezerra Amorim | rhba@cin.ufpe.br
 
 ## Contextualização
 
