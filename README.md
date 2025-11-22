@@ -76,10 +76,10 @@ ExpBinaria ::= Expressao "+" Expressao
              | Expressao ">=" Expressao
              | Expressao "and" Expressao
              | Expressao "or" Expressao
-            #| ExpDeclaracao
-            #| Id
-            #| Aplicacao
-            #| IfThenElse
+            # | ExpDeclaracao   # (a ser definido futuramente)
+            # | Id              # (a ser definido futurariamente)
+            # | Aplicacao       # (a ser definido futuramente)
+            # | IfThenElse      # (a ser definido futuramente)
             #| ExpArvore
 
 # Operações de inserção, remoção e busca em árvores binárias são definidas pela expressão "ExpArvore". Cada operação recebe dois argumentos: a árvore alvo e o valor a ser inserido, removido ou buscado.
