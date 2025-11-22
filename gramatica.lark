@@ -1,0 +1,57 @@
+?start: expressao
+
+?expressao: valor
+          | exp_binaria
+          | exp_unaria
+          | exp_declaracao
+          | id
+          | aplicacao
+          | if_then_else
+          | exp_arvore
+
+// --- Definição de Valores ---
+?valor: valor_concreto
+
+?valor_concreto: valor_inteiro
+               | valor_booleano
+               | valor_string
+               | valor_lista
+               | valor_arvore
+
+valor_inteiro: SIGNED_INT
+valor_booleano: "true" | "false"
+valor_string: ESCAPED_STRING
+
+valor_lista: "[" [expressao ("," expressao)*] "]"
+
+// --- Estrutura da Árvore ---
+valor_arvore: "Empty" -> empty_tree
+            | "Node" "(" valor_ordenavel "," valor_arvore "," valor_arvore ")" -> node_tree
+
+// --- Operações em Árvore ---
+exp_arvore: "insert" "(" expressao "," valor_ordenavel ")" -> insert_tree
+          | "remove" "(" expressao "," valor_ordenavel ")" -> remove_tree
+          | "search" "(" expressao "," valor_ordenavel ")" -> search_tree
+
+?valor_ordenavel: valor_inteiro | valor_string
+
+// --- Outras Expressões ---
+id: CNAME
+
+exp_binaria: expressao "+" expressao -> add
+           | expressao "-" expressao -> sub
+           | expressao "*" expressao -> mul
+
+exp_unaria: "!" expressao -> not_op
+
+exp_declaracao: "let" id "=" expressao "in" expressao
+
+aplicacao: id "(" [expressao ("," expressao)*] ")"
+
+if_then_else: "if" expressao "then" expressao "else" expressao
+
+%import common.SIGNED_INT
+%import common.ESCAPED_STRING
+%import common.CNAME
+%import common.WS
+%ignore WS
