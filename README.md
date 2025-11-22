@@ -76,11 +76,11 @@ ExpBinaria ::= Expressao "+" Expressao
              | Expressao ">=" Expressao
              | Expressao "and" Expressao
              | Expressao "or" Expressao
-            | ExpDeclaracao
-            | Id
-            | Aplicacao
-            | IfThenElse
-            | ExpArvore
+            #| ExpDeclaracao
+            #| Id
+            #| Aplicacao
+            #| IfThenElse
+            #| ExpArvore
 
 # Operações de inserção, remoção e busca em árvores binárias são definidas pela expressão "ExpArvore". Cada operação recebe dois argumentos: a árvore alvo e o valor a ser inserido, removido ou buscado.
 ExpArvore ::= "insert" "(" Expressao "," Expressao ")" 
