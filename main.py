@@ -13,7 +13,7 @@ def bst_insert(node, val):
     elif val > node.val:
         return TreeNode(node.val, node.left, bst_insert(node.right, val))
     else:
-        return node  # Valor duplicado, retorna a mesma árvore
+        return TreeNode(node.val, node.left, bst_insert(node.right, val))  # Valor duplicado, retorna a mesma árvore
 
 
 def bst_search(node, val):
@@ -52,6 +52,27 @@ def bst_remove(node, val):
         # Nó com dois filhos: pega o sucessor in-order
         temp = bst_min_value(node.right)
         return TreeNode(temp.val, node.left, bst_remove(node.right, temp.val))
+def bst_min(node):
+    if isinstance(node, EmptyTree):
+        raise ValueError("Árvore vazia não possui mínimo")
+    while not isinstance(node.left, EmptyTree):
+        node = node.left
+    return node.val
+
+
+def bst_max(node):
+    if isinstance(node, EmptyTree):
+        raise ValueError("Árvore vazia não possui máximo")
+    while not isinstance(node.right, EmptyTree):
+        node = node.right
+    return node.val
+
+
+def bst_inorder(node):
+    if isinstance(node, EmptyTree):
+        return []
+
+    return bst_inorder(node.left) + [node.val] + bst_inorder(node.right)
 
 
 # --- Avaliador (Interpreter) ---
@@ -89,11 +110,14 @@ def evaluate(node, env):
 
     if isinstance(node, TreeOp):
         tree = evaluate(node.tree, env)
-        val = evaluate(node.val, env)
+        val = evaluate(node.val, env) if node.val is not None else None
 
         if node.op == 'insert': return bst_insert(tree, val)
         if node.op == 'search': return bst_search(tree, val)
         if node.op == 'remove': return bst_remove(tree, val)
+        if node.op == 'min': return bst_min(tree)
+        if node.op == 'max': return bst_max(tree)
+        if node.op == 'inorder': return bst_inorder(tree)
 
     if isinstance(node, IfElse):
         cond = evaluate(node.cond, env)

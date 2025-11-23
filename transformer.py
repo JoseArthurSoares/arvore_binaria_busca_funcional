@@ -136,3 +136,12 @@ class LangTransformer(Transformer):
         return App(var_node.name, args)
 
     def list_exp(self, *args): return list(args)
+
+    def tree_min(self, tree): 
+        return TreeOp('min', tree, None)
+
+    def tree_max(self, tree): 
+        return TreeOp('max', tree, None)
+
+    def tree_inorder(self, tree):
+        return TreeOp('inorder', tree, None)

@@ -86,6 +86,9 @@ ExpBinaria ::= Expressao "+" Expressao
 ExpArvore ::= "insert" "(" Expressao "," Expressao ")" 
             | "remove" "(" Expressao "," Expressao ")" 
             | "search" "(" Expressao "," Expressao ")"
+            | "min" "(" expressao ")"               
+            | "max" "(" expressao ")"                 
+            | "inorder" "(" expressao ")" 
 
 ```
 ## Exemplos de Uso

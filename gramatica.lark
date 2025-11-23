@@ -32,6 +32,9 @@
 ?exp_arvore: "insert" "(" expressao "," expressao ")" -> tree_insert
            | "remove" "(" expressao "," expressao ")" -> tree_remove
            | "search" "(" expressao "," expressao ")" -> tree_search
+           | "min" "(" expressao ")"                  -> tree_min
+           | "max" "(" expressao ")"                  -> tree_max
+           | "inorder" "(" expressao ")"              -> tree_inorder
 
 // Declarações (Let .. In)
 exp_declaracao: "let" declaracao_funcional "in" expressao
