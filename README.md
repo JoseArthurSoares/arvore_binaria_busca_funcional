@@ -25,73 +25,73 @@ O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e
 ## BNF da Linguagem
 
 ```
-<start> ::= <expressao>
+start ::= expressao
 
-<expressao> ::= <exp_declaracao>
-              | <if_then_else>
-              | <exp_logica>
-              | <exp_arvore>
+expressao ::= exp_declaracao
+            | if_then_else
+            | exp_logica
+            | exp_arvore
 
-<exp_logica> ::= <exp_logica> "or" <exp_comparacao>
-               | <exp_logica> "and" <exp_comparacao>
-               | "not" <exp_logica>
-               | <exp_comparacao>
+exp_logica ::= exp_logica "or" exp_comparacao
+             | exp_logica "and" exp_comparacao
+             | "not" exp_logica
+             | exp_comparacao
 
-<exp_comparacao> ::= <exp_soma> "==" <exp_soma>
-                   | <exp_soma>
+exp_comparacao ::= exp_soma "==" exp_soma
+                 | exp_soma
 
-<exp_soma> ::= <exp_soma> "+" <exp_termo>
-             | <exp_soma> "-" <exp_termo>
-             | <exp_soma> "++" <exp_termo>
-             | <exp_termo>
+exp_soma ::= exp_soma "+" exp_termo
+           | exp_soma "-" exp_termo
+           | exp_soma "++" exp_termo
+           | exp_termo
 
-<exp_termo> ::= "-" <exp_termo>
-              | "length" <exp_termo>
-              | <aplicacao>
-              | <valor>
-              | <id>
-              | "(" <expressao> ")"
+exp_termo ::= "-" exp_termo
+            | "length" exp_termo
+            | aplicacao
+            | valor
+            | id
+            | "(" expressao ")"
 
-<exp_arvore> ::= "insert" "(" <expressao> "," <expressao> ")"
-               | "remove" "(" <expressao> "," <expressao> ")"
-               | "search" "(" <expressao> "," <expressao> ")"
-               | "min" "(" <expressao> ")"
-               | "max" "(" <expressao> ")"
-               | "inorder" "(" <expressao> ")"
+exp_arvore ::= "insert" "(" expressao "," expressao ")"
+             | "remove" "(" expressao "," expressao ")"
+             | "search" "(" expressao "," expressao ")"
+             | "min" "(" expressao ")"
+             | "max" "(" expressao ")"
+             | "inorder" "(" expressao ")"
 
-<exp_declaracao> ::= "let" <declaracao_funcional> "in" <expressao>
+exp_declaracao ::= "let" declaracao_funcional "in" expressao
 
-<declaracao_funcional> ::= <dec_variavel>
-                         | <dec_funcao>
-                         | <dec_composta>
+declaracao_funcional ::= dec_variavel
+                       | dec_funcao
+                       | dec_composta
 
-<dec_variavel> ::= "var" <id> "=" <expressao>
+dec_variavel ::= "var" id "=" expressao
 
-<dec_funcao> ::= "fun" <id> <list_id> "=" <expressao>
+dec_funcao ::= "fun" id list_id "=" expressao
 
-<dec_composta> ::= <declaracao_funcional> "," <declaracao_funcional>
+dec_composta ::= declaracao_funcional "," declaracao_funcional
 
-<aplicacao> ::= <id> "(" <list_exp> ")"
+aplicacao ::= id "(" list_exp ")"
 
-<if_then_else> ::= "if" <expressao> "then" <expressao> "else" <expressao>
+if_then_else ::= "if" expressao "then" expressao "else" expressao
 
-<valor> ::= <valor_concreto>
+valor ::= valor_concreto
 
-<valor_concreto> ::= <INT>
-                   | <STRING>
-                   | "true"
-                   | "false"
-                   | <valor_arvore>
+valor_concreto ::= INT
+                 | STRING
+                 | "true"
+                 | "false"
+                 | valor_arvore
 
-<valor_arvore> ::= "Empty"
-                 | "Node" "(" <valor_ordenavel> "," <expressao> "," <expressao> ")"
+valor_arvore ::= "Empty"
+               | "Node" "(" valor_ordenavel "," expressao "," expressao ")"
 
-<valor_ordenavel> ::= <INT>
-                    | <STRING>
+valor_ordenavel ::= INT
+                  | STRING
 
-<list_id> ::= <id>*
+list_id ::= id*
 
-<list_exp> ::= <expressao> ("," <expressao>)*
+list_exp ::= expressao ("," expressao)*
 
 ```
 
