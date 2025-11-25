@@ -22,6 +22,7 @@ Este projeto foca na implementação de uma estrutura de dados clássica, a Árv
 
 O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e manipular dados ordenados. A funcionalidade central é a implementação das operações de `inserir`, `remover` e `buscar` de forma puramente funcional, onde qualquer operação de escrita deve retornar uma nova instância da árvore com a modificação aplicada, mantendo a versão anterior intacta e acessível.
 
+```
 # ============================
 #        BNF da Linguagem
 # ============================
@@ -150,9 +151,8 @@ O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e
 <id> ::= sequência de letras, dígitos e sublinhado, começando por letra ou sublinhado
 <INT> ::= número inteiro
 <STRING> ::= string entre aspas
- 
-
 ```
+
 ## Exemplos de Uso
 ### Exemplo 1 - Inserção inicial na árvore
 Expressão formal
