@@ -22,50 +22,28 @@ Este projeto foca na implementação de uma estrutura de dados clássica, a Árv
 
 O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e manipular dados ordenados. A funcionalidade central é a implementação das operações de `inserir`, `remover` e `buscar` de forma puramente funcional, onde qualquer operação de escrita deve retornar uma nova instância da árvore com a modificação aplicada, mantendo a versão anterior intacta e acessível.
 
+## BNF da Linguagem
+
 ```
-# ============================
-#        BNF da Linguagem
-# ============================
-
 <start> ::= <expressao>
-
-# ----------------------------
-#        EXPRESSÕES
-# ----------------------------
 
 <expressao> ::= <exp_declaracao>
               | <if_then_else>
               | <exp_logica>
               | <exp_arvore>
 
-# ----------------------------
-#     EXPRESSÕES LÓGICAS
-# ----------------------------
-
 <exp_logica> ::= <exp_logica> "or" <exp_comparacao>
                | <exp_logica> "and" <exp_comparacao>
                | "not" <exp_logica>
                | <exp_comparacao>
 
-# ----------------------------
-#        COMPARAÇÃO
-# ----------------------------
-
 <exp_comparacao> ::= <exp_soma> "==" <exp_soma>
                    | <exp_soma>
-
-# ----------------------------
-#   ARITMÉTICA E CONCATENAÇÃO
-# ----------------------------
 
 <exp_soma> ::= <exp_soma> "+" <exp_termo>
              | <exp_soma> "-" <exp_termo>
              | <exp_soma> "++" <exp_termo>
              | <exp_termo>
-
-# ----------------------------
-#           TERMOS
-# ----------------------------
 
 <exp_termo> ::= "-" <exp_termo>
               | "length" <exp_termo>
@@ -74,20 +52,12 @@ O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e
               | <id>
               | "(" <expressao> ")"
 
-# ----------------------------
-#   OPERAÇÕES COM ÁRVORES
-# ----------------------------
-
 <exp_arvore> ::= "insert" "(" <expressao> "," <expressao> ")"
                | "remove" "(" <expressao> "," <expressao> ")"
                | "search" "(" <expressao> "," <expressao> ")"
                | "min" "(" <expressao> ")"
                | "max" "(" <expressao> ")"
                | "inorder" "(" <expressao> ")"
-
-# ----------------------------
-# DECLARAÇÕES (let ... in ...)
-# ----------------------------
 
 <exp_declaracao> ::= "let" <declaracao_funcional> "in" <expressao>
 
@@ -101,21 +71,9 @@ O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e
 
 <dec_composta> ::= <declaracao_funcional> "," <declaracao_funcional>
 
-# ----------------------------
-#   APLICAÇÃO DE FUNÇÃO
-# ----------------------------
-
 <aplicacao> ::= <id> "(" <list_exp> ")"
 
-# ----------------------------
-#     IF / THEN / ELSE
-# ----------------------------
-
 <if_then_else> ::= "if" <expressao> "then" <expressao> "else" <expressao>
-
-# ----------------------------
-#           VALORES
-# ----------------------------
 
 <valor> ::= <valor_concreto>
 
@@ -125,32 +83,16 @@ O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e
                    | "false"
                    | <valor_arvore>
 
-# ----------------------------
-#     VALORES DE ÁRVORE
-# ----------------------------
-
 <valor_arvore> ::= "Empty"
                  | "Node" "(" <valor_ordenavel> "," <expressao> "," <expressao> ")"
 
 <valor_ordenavel> ::= <INT>
                     | <STRING>
 
-# ----------------------------
-#       LISTAS AUXILIARES
-# ----------------------------
-
 <list_id> ::= <id>*
 
 <list_exp> ::= <expressao> ("," <expressao>)*
-             | ε
 
-# ----------------------------
-#           TERMINAIS
-# ----------------------------
-
-<id> ::= sequência de letras, dígitos e sublinhado, começando por letra ou sublinhado
-<INT> ::= número inteiro
-<STRING> ::= string entre aspas
 ```
 
 ## Exemplos de Uso
