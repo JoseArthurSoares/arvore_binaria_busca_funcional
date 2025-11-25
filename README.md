@@ -86,8 +86,10 @@ valor_concreto ::= INT
 valor_arvore ::= "Empty"
                | "Node" "(" valor_ordenavel "," expressao "," expressao ")"
 
-valor_ordenavel ::= INT
-                  | STRING
+?valor_ordenavel: INT 
+                | ESCAPED_STRING 
+                | "true"         
+                | "false"        
 
 list_id ::= id*
 

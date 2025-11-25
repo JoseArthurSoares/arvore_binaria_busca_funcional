@@ -65,7 +65,10 @@ if_then_else: "if" expressao "then" expressao "else" expressao
 ?valor_arvore: "Empty" -> val_empty
              | "Node" "(" valor_ordenavel "," expressao "," expressao ")" -> val_node
 
-?valor_ordenavel: INT | ESCAPED_STRING
+?valor_ordenavel: INT 
+                | ESCAPED_STRING 
+                | "true"         -> val_bool_true
+                | "false"        -> val_bool_false
 
 // Listas auxiliares
 list_id: id*
