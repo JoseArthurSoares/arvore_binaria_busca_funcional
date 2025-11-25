@@ -16,79 +16,141 @@ Prof. Dr. Augusto Cezar Alves Sampaio
 
 ## Contextualização
 
-Este projeto foca na implementação de uma estrutura de dados clássica, a Árvore Binária de Busca (BST), sob a ótica do paradigma da linguagem funcional 3. A implementação visa não apenas replicar as operações básicas de inserção e busca, mas garantir que todas as modificações na estrutura preservem a **imutabilidade**. O conceito central explorado será o de **compartilhamento estrutural** (*structural sharing*), também conhecido como *path copying*, que permite a criação eficiente de novas versões da árvore a cada operação, sem alterar a original.
+Este projeto foca na implementação de uma estrutura de dados clássica, a Árvore Binária de Busca (BST), sob a ótica do paradigma da linguagem funcional 1. A implementação visa não apenas replicar as operações básicas de inserção e busca, mas garantir que todas as modificações na estrutura preservem a **imutabilidade**. O conceito central explorado será o de **compartilhamento estrutural** (*structural sharing*), também conhecido como *path copying*, que permite a criação eficiente de novas versões da árvore a cada operação, sem alterar a original.
 
 ## Escopo do Projeto
 
 O objetivo é desenvolver um tipo `Árvore` polimórfico que permita armazenar e manipular dados ordenados. A funcionalidade central é a implementação das operações de `inserir`, `remover` e `buscar` de forma puramente funcional, onde qualquer operação de escrita deve retornar uma nova instância da árvore com a modificação aplicada, mantendo a versão anterior intacta e acessível.
 
-## Gramática BNF
+# ============================
+#        BNF da Linguagem
+# ============================
 
-A gramática a seguir representa a Linguagem Funcional 3 estendida com definições para a estrutura de dados Árvore Binária de Busca e suas operações:
+<start> ::= <expressao>
 
-```
-# Novo tipo de dado "ValorArvore"
-# Valor
-Valor ::= ValorConcreto
+# ----------------------------
+#        EXPRESSÕES
+# ----------------------------
 
-ValorConcreto ::= ValorInteiro
-                | ValorBooleano
-                | ValorString
-                | ValorLista
-                | ValorArvore
+<expressao> ::= <exp_declaracao>
+              | <if_then_else>
+              | <exp_logica>
+              | <exp_arvore>
 
+# ----------------------------
+#     EXPRESSÕES LÓGICAS
+# ----------------------------
 
-# Esse novo tipo de dado representa uma árvore binária. "Empty" representa uma árvore vazia, enquanto "Node" representa um nó da árvore com três componentes: o valor armazenado no nó, a subárvore esquerda e a subárvore direita.
-ValorArvore ::= "Empty"
-              | "Node" "(" Expressao "," Expressao "," Expressao ")"
+<exp_logica> ::= <exp_logica> "or" <exp_comparacao>
+               | <exp_logica> "and" <exp_comparacao>
+               | "not" <exp_logica>
+               | <exp_comparacao>
 
+# ----------------------------
+#        COMPARAÇÃO
+# ----------------------------
 
-# Nova expressão "ExpArvore" para manipulação de árvores binárias
-# Expressões
-Expressao ::= Valor
-            | ExpUnaria
-            | ExpBinaria
-            | ExpDeclaracao
-            | Id
-            | Aplicacao
-            | IfThenElse
-            | ExpArvore
+<exp_comparacao> ::= <exp_soma> "==" <exp_soma>
+                   | <exp_soma>
 
-# Expressões unárias
-ExpUnaria ::= "-" Expressao
-              | "not" Expressao
-              | "len" Expressao
-              | "isEmpty" Expressao
-              | "height" Expressao
-              | "int" Expressao
-              | "bool" Expressao
-              | "string" Expressao
+# ----------------------------
+#   ARITMÉTICA E CONCATENAÇÃO
+# ----------------------------
 
-# Expressões binárias
-ExpBinaria ::= Expressao "+" Expressao
-             | Expressao "-" Expressao
-             | Expressao "*" Expressao
-             | Expressao "/" Expressao
-             | Expressao "==" Expressao
-             | Expressao "<" Expressao
-             | Expressao ">" Expressao
-             | Expressao "<=" Expressao
-             | Expressao ">=" Expressao
-             | Expressao "and" Expressao
-             | Expressao "or" Expressao
-            # | ExpDeclaracao   # (a ser definido futuramente)
-            # | Id              # (a ser definido futurariamente)
-            # | Aplicacao       # (a ser definido futuramente)
-            # | IfThenElse      # (a ser definido futuramente)
-            #| ExpArvore
+<exp_soma> ::= <exp_soma> "+" <exp_termo>
+             | <exp_soma> "-" <exp_termo>
+             | <exp_soma> "++" <exp_termo>
+             | <exp_termo>
 
-# Operações de inserção, remoção e busca em árvores binárias são definidas pela expressão "ExpArvore". Cada operação recebe dois argumentos: a árvore alvo e o valor a ser inserido, removido ou buscado.
-ExpArvore ::= "insert" "(" Expressao "," Expressao ")" 
-            | "remove" "(" Expressao "," Expressao ")" 
-            | "search" "(" Expressao "," Expressao ")"
-            | "min" "(" expressao ")"               
-            | "max" "(" expressao ")"                 
-            | "inorder" "(" expressao ")" 
+# ----------------------------
+#           TERMOS
+# ----------------------------
+
+<exp_termo> ::= "-" <exp_termo>
+              | "length" <exp_termo>
+              | <aplicacao>
+              | <valor>
+              | <id>
+              | "(" <expressao> ")"
+
+# ----------------------------
+#   OPERAÇÕES COM ÁRVORES
+# ----------------------------
+
+<exp_arvore> ::= "insert" "(" <expressao> "," <expressao> ")"
+               | "remove" "(" <expressao> "," <expressao> ")"
+               | "search" "(" <expressao> "," <expressao> ")"
+               | "min" "(" <expressao> ")"
+               | "max" "(" <expressao> ")"
+               | "inorder" "(" <expressao> ")"
+
+# ----------------------------
+# DECLARAÇÕES (let ... in ...)
+# ----------------------------
+
+<exp_declaracao> ::= "let" <declaracao_funcional> "in" <expressao>
+
+<declaracao_funcional> ::= <dec_variavel>
+                         | <dec_funcao>
+                         | <dec_composta>
+
+<dec_variavel> ::= "var" <id> "=" <expressao>
+
+<dec_funcao> ::= "fun" <id> <list_id> "=" <expressao>
+
+<dec_composta> ::= <declaracao_funcional> "," <declaracao_funcional>
+
+# ----------------------------
+#   APLICAÇÃO DE FUNÇÃO
+# ----------------------------
+
+<aplicacao> ::= <id> "(" <list_exp> ")"
+
+# ----------------------------
+#     IF / THEN / ELSE
+# ----------------------------
+
+<if_then_else> ::= "if" <expressao> "then" <expressao> "else" <expressao>
+
+# ----------------------------
+#           VALORES
+# ----------------------------
+
+<valor> ::= <valor_concreto>
+
+<valor_concreto> ::= <INT>
+                   | <STRING>
+                   | "true"
+                   | "false"
+                   | <valor_arvore>
+
+# ----------------------------
+#     VALORES DE ÁRVORE
+# ----------------------------
+
+<valor_arvore> ::= "Empty"
+                 | "Node" "(" <valor_ordenavel> "," <expressao> "," <expressao> ")"
+
+<valor_ordenavel> ::= <INT>
+                    | <STRING>
+
+# ----------------------------
+#       LISTAS AUXILIARES
+# ----------------------------
+
+<list_id> ::= <id>*
+
+<list_exp> ::= <expressao> ("," <expressao>)*
+             | ε
+
+# ----------------------------
+#           TERMINAIS
+# ----------------------------
+
+<id> ::= sequência de letras, dígitos e sublinhado, começando por letra ou sublinhado
+<INT> ::= número inteiro
+<STRING> ::= string entre aspas
+ 
 
 ```
 ## Exemplos de Uso
